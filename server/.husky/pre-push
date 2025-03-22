@@ -1,4 +1,6 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npx lint-staged
+echo "🔍 Rodando lint e prettier antes do push..."
+
+npm run lint && npm run format
