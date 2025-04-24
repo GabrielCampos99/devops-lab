@@ -11,13 +11,15 @@ on:
       - main
 
   schedule:
-    - cron: '18 1 * * *'
+    # Executa todos os dias às 22h13 no horário de Brasília (UTC-3 = 01:13 UTC)
+    - cron: '13 1 * * *'
 
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  # JOB AGENDADO: Apenas um console.log()
   scheduled-job:
     if: github.event_name == 'schedule'
     runs-on: ubuntu-latest
@@ -25,8 +27,12 @@ jobs:
       - name: Rodando job agendado
         run: echo "✅ Cron executada com sucesso às 22h13 BRT"
 
+  # JOB DE VERIFICAÇÃO DE LABEL
   check-label:
     if: github.event_name == 'pull_request' && github.event.action == 'labeled'
+    concurrency:
+      group: label-check-${{ github.ref }}
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     steps:
       - name: Mostrar nome da label
@@ -34,6 +40,7 @@ jobs:
           echo "🧩 Uma label foi adicionada ao PR"
           echo "🏷️ Nome da label: ${{ github.event.label.name }}"
 
+  # JOB DE BUILD
   build:
     if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
@@ -59,6 +66,7 @@ jobs:
         run: npm run build
         working-directory: ./server
 
+  # JOB DE TESTE (depende do build)
   test:
     if: github.event_name != 'schedule'
     needs: build
@@ -81,4 +89,3 @@ jobs:
       - name: Run tests
         run: npm test
         working-directory: ./server
-
