@@ -11,7 +11,7 @@ on:
       - main
 
   schedule:
-    - cron: '13 1 * * *'
+    - cron: '18 1 * * *'
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -82,4 +82,3 @@ jobs:
         run: npm test
         working-directory: ./server
 
-        
