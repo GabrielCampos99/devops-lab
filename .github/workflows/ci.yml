@@ -10,16 +10,7 @@ on:
     branches:
       - main
 
-  schedule:
-    - cron: "*/5 * * * *"
-
 jobs:
-  scheduled-job:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Rodando job agendado
-        run: echo "✅ Cron executada com sucesso às 19h Brasília."
-
   check-label:
     if: github.event_name == 'pull_request' && github.event.action == 'labeled'
     runs-on: ubuntu-latest
