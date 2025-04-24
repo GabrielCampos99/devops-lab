@@ -11,7 +11,11 @@ on:
       - main
 
   schedule:
-    - cron: '10 1 * * *'
+    - cron: '13 1 * * *'
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   scheduled-job:
@@ -19,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Rodando job agendado
-        run: echo "✅ Cron executada com sucesso às 19h Brasília."
+        run: echo "✅ Cron executada com sucesso às 22h13 BRT"
 
   check-label:
     if: github.event_name == 'pull_request' && github.event.action == 'labeled'
@@ -31,7 +35,7 @@ jobs:
           echo "🏷️ Nome da label: ${{ github.event.label.name }}"
 
   build:
-    if: github.event_name != 'schedule' 
+    if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     strategy:
       matrix:
