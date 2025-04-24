@@ -11,11 +11,10 @@ on:
       - main
 
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: "*/5 * * * *"
 
 jobs:
   scheduled-job:
-    if: github.event_name == 'schedule'
     runs-on: ubuntu-latest
     steps:
       - name: Rodando job agendado
