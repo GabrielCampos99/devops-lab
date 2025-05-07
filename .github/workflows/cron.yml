@@ -2,7 +2,8 @@ name: Cron Job
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    # Executa todo dia às 22h UTC, que corresponde a 19h em Brasília (UTC-3)
+    - cron: "0 22 * * *"
 
 jobs:
   scheduled-job:
